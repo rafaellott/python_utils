@@ -1,57 +1,27 @@
-u"""Arquivo responsável por criar o manual de uso do script."""
 # -*- coding: utf-8 -*-
+"""File responsible to create a manual for a python script."""
 # ----------------------------------------------------------------------
-# @name:        ajuda.py
+# @name:        helper.py
 # @author:      rafaellott
-# @version:     1.0
+# @version:     1.1
 # @created:     25/11/2015
 # ----------------------------------------------------------------------
+from utils import to_encode
 
 
-def to_unicode(s, encodings=['utf-8', 'latin-1']):
-    """Try to decode string to Unicode format."""
-    if isinstance(s, (list, tuple)):
-        return [to_unicode(i) for i in s]
-    if isinstance(s, dict):
-        in_dict = {}
-        for key in s:
-            in_dict[to_unicode(key)] = to_unicode(s[key])
-        return in_dict
-    elif isinstance(s, str):
-        for encoding in encodings:
-            try:
-                return s.decode(encoding)
-            except:
-                pass
-    return s
+class _Helper(object):
+    """Class responsible to create the manual page for an script.
 
-
-def to_encode(s, encoding='utf-8', errors='strict'):
-    """Encode "DEEP" S using the codec registered for encoding.
-
-    Errors may be given to set a different error handling scheme.  Default
-    is 'strict' meaning that encoding errors raise a UnicodeEncodeError. Other
-    possible values are 'ignore', 'replace' and 'xmlcharrefreplace'
-    as well as any other name registered with codecs. Register_error that can
-    handle UnicodeEncodeErrors.
+    How to use:
+    Import the file and create an instance of the class, after, you'll need to
+    call the method within the class to creat the manual's sections. Follow the
+    followin order to create the sections:
+        Section NAME        (_Helper.add_section_name)
+        Section SYNTAX      (_Helper.add_section_syntax)
+        Section DESCRIPTION (_Helper.add_section_description)
+    The method _Helper.add_arguments when called for the first time, creats the
+    section PARAMETER, and adds the parameter description.
     """
-    s = to_unicode(s)
-    if isinstance(s, unicode):
-        return s.encode(encoding, errors)
-    if isinstance(s, (list, tuple)):
-        return [to_encode(i, encoding=encoding, errors=errors) for i in s]
-    if isinstance(s, dict):
-        new_dict = {}
-        for key in s:
-            new_dict[
-                to_encode(key, encoding=encoding, errors=errors)
-            ] = to_encode(s[key], encoding=encoding, errors=errors)
-        return new_dict
-    return s
-
-
-class Ajuda(object):
-    """Class responsible to create the manual page for an script."""
 
     def __init__(self):
         """Constructor Class.
