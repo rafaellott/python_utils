@@ -14,9 +14,3 @@ class TestPprint(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_01_pprint(self):
-        print((python_utils.helper))
-
-    def test_02_pprint(self):
-        print((python_utils._Helper))
-
