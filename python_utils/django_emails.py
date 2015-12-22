@@ -3,7 +3,6 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.core.signing import Signer
-from ecommerce.models import Token
 from django.utils import timezone
 
 
@@ -11,8 +10,7 @@ class _Mail():
 
     def __init__(
             self, recipient_list=None, subject=None, msg=None, token=None,
-            sender="nao-responda@veredaeditora.com.br", fail_silently=True,
-            base_url=""):
+            sender="no-reply@localhost", fail_silently=True, base_url=""):
         self.recipient_list = recipient_list
         self.subject = subject
         self.msg = msg
@@ -21,7 +19,7 @@ class _Mail():
         self.fail_silently = fail_silently
         self.base_url = "http://" + base_url
 
-    def send_newsletter(self, corpo, cliente):
+    def send_newsletter(self, body, cliente):
         signer = Signer()
         cancel_token = signer.sign(
             'cancel' + timezone.datetime.now().strftime("%d%m%y%H%M")
@@ -32,11 +30,11 @@ class _Mail():
         htmly = get_template('email/newsletter.html')
 
         d = {
-            'fullname': cliente.user.get_user_name(),
-            'destinatario': cliente.user.email,
+            'fullname': 'Test',
+            'destinatario': 'test@localhost',
             'cancel_token': cancel_token,
             'base_url': self.base_url,
-            'msg': corpo,
+            'msg': body,
         }
 
         text_content = plaintext.render(d)
@@ -55,13 +53,6 @@ class _Mail():
         delete_token = signer.sign(
             'delete' + timezone.datetime.now().strftime("%d%m%y%H%M")
         ).replace('delete', 'd')
-
-        t = Token(cliente=cliente, token=token)
-        t.save()
-        del t
-        t = Token(cliente=cliente, token=delete_token)
-        t.save()
-        del t
 
         # Email body
         plaintext = get_template('email/confirma.txt')
