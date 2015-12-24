@@ -5,7 +5,7 @@
 # from python_utils import helper
 
 import unittest
-from python_utils.helper import _Helper
+from python_utils.django_emails import _Mail
 
 
 class TestPythonUtils(unittest.TestCase):
@@ -13,13 +13,18 @@ class TestPythonUtils(unittest.TestCase):
 
     def setUp(self):
         """Add documentation here."""
-        self.helper = _Helper()
+        pass
 
     def tearDown(self):
         """Add documentation here."""
-        del self.helper
+        pass
 
-    def test__1_add_section(self):
+    def test__1_send_newsletter(self):
         """Add documentation here."""
-        self.helper.add_section_name("TESTE")
-        print self.helper.name
+        mail = _Mail(
+            recipient_list=['rafaellott.2@gmail.com'],
+            subject="Teste newsletter", sender="test@localhost",
+            fail_silently=False,
+            base_url="https://github.com/rafaellott/python_utils"
+        )
+        mail.send_newsletter()
