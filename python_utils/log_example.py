@@ -1,3 +1,4 @@
+"""Source http://www.blog.pythonlibrary.org/2014/02/11/python-how-to-create-rotating-logs/"""
 from logging.handlers import TimedRotatingFileHandler
 import logging
 
